@@ -16,7 +16,7 @@ fn get_chk_code(id_17: &str) -> Option<String> {
     }
 
     let tmp = LAST_NUMBER[sum as usize % 11];
-    return Some(tmp.to_string());
+    return Some((tmp as char).to_string());
 }
 
 pub fn check_gen2(id_18: &str) -> bool {
