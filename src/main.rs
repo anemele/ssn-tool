@@ -31,7 +31,8 @@ enum Cli {
     /// 校验二代身份证号
     Check {
         #[arg(help = "二代身份证号")]
-        id: String,
+        #[clap(required = true)]
+        id: Vec<String>,
     },
 }
 
@@ -51,10 +52,12 @@ fn main() {
         }
         Cli::Check { id } => {
             // println!("{}", id);
-            if check_gen2(&id) {
-                println!("ok   {id}")
-            } else {
-                println!("bad  {id}")
+            for i in id {
+                if check_gen2(&i) {
+                    println!("ok   {i}")
+                } else {
+                    println!("bad  {i}")
+                }
             }
         }
     }

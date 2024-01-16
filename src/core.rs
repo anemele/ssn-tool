@@ -1,15 +1,16 @@
 use crate::{COEFFICIENT, LAST_NUMBER};
+use log::debug;
 
 fn get_chk_code(id_17: &str) -> Option<String> {
     if id_17.len() != 17 {
-        eprintln!("Not 17 length input");
+        debug!("Not 17 length input: {:}", id_17);
         return None;
     }
 
     let mut sum = 0;
     for (i, c) in id_17.chars().enumerate() {
         if !c.is_ascii_digit() {
-            eprintln!("Invalid char: {c}");
+            debug!("Invalid char: {:}", c);
             return None;
         }
         sum += COEFFICIENT[i] * (c as i32 - 48);
@@ -21,7 +22,7 @@ fn get_chk_code(id_17: &str) -> Option<String> {
 
 pub fn check_gen2(id_18: &str) -> bool {
     if id_18.len() != 18 {
-        eprintln!("Not 18 length input");
+        debug!("Not 18 length input: {:}", id_18);
         return false;
     }
 
@@ -40,7 +41,7 @@ pub fn check_gen2(id_18: &str) -> bool {
 
 pub fn cvt2to1(id_18: &str) -> Option<String> {
     if !check_gen2(&id_18) {
-        eprintln!("Invalid id: {id_18}");
+        debug!("Invalid id: {:}", id_18);
         return None;
     }
     let tmp = id_18[..6].to_string() + &id_18[8..17].to_string();
@@ -49,7 +50,7 @@ pub fn cvt2to1(id_18: &str) -> Option<String> {
 
 pub fn cvt1to2(id_15: &str, year2: &str) -> Option<String> {
     if id_15.len() != 15 {
-        eprintln!("Not 15 length input");
+        debug!("Not 15 length input: {:}", id_15);
         return None;
     }
     let id_17 = id_15[..6].to_string() + year2 + &id_15[6..];
