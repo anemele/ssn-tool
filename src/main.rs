@@ -31,34 +31,28 @@ enum Cli {
     /// 校验二代身份证号
     Check {
         #[arg(help = "二代身份证号")]
-        #[clap(required = true)]
-        id: Vec<String>,
+        id: String,
     },
 }
 
-fn main() {
+fn main() -> anyhow::Result<()> {
     match Cli::parse() {
         Cli::Cvt1to2 { id, year2 } => {
-            // println!("{},{}", id, year2);
-            if let Some(ret) = cvt1to2(&id, &year2) {
-                println!("{} -> {}", id, ret)
-            }
+            let res = cvt1to2(&id, &year2)?;
+            println!("{} -> {}", id, res);
         }
         Cli::Cvt2to1 { id } => {
-            // println!("{}", id);
-            if let Some(ret) = cvt2to1(&id) {
-                println!("{} -> {}", id, ret)
-            }
+            let res = cvt2to1(&id)?;
+            println!("{} -> {}", id, res);
         }
         Cli::Check { id } => {
-            // println!("{}", id);
-            for i in id {
-                if check_gen2(&i) {
-                    println!("ok   {i}")
-                } else {
-                    println!("bad  {i}")
-                }
+            if check_gen2(&id).is_ok() {
+                println!("{} -> ok", id);
+            } else {
+                println!("{} -> bad", id);
             }
         }
     }
+
+    Ok(())
 }
